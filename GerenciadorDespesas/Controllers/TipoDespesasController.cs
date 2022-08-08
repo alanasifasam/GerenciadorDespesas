@@ -24,6 +24,16 @@ namespace GerenciadorDespesas.Controllers
         }
 
 
+        public async Task<JsonResult> TipoDespesaExiste(string Nome) 
+        { 
+            if(await _context.TipoDespesas.AnyAsync(x=>x.Nome.ToUpper()== Nome.ToUpper()))
+            
+                return Json("Esse tipo de despesa já existe!");
+
+            return Json(true);
+
+        }
+
         [HttpGet]
         public IActionResult Create()
         {

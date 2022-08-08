@@ -69,3 +69,38 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+/*-----------------tabela------------------------*/
+
+.tabela {
+    padding-top:50px;
+    padding-bottom:50px;
+
+}
+
+.btnNovo {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+
+.formulario {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.form{
+    padding-top:20px;
+    padding-bottom: 20px;
+    padding-left: 50px;
+    padding-right:50px;
+
+}
+
+.tabelaPrincipal{
+    padding-top: 75px;
+}
+
+.estatisticas{
+    padding-top:50px;
+
+}

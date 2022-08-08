@@ -1,23 +1,25 @@
 ﻿@model GerenciadorDespesas.Models.TipoDespesas
 
 @{
-    ViewData["Title"] = "Novos Tipos de Despesas";
+    ViewData["Title"] = "Atualizar" + Model.Nome;
 }
 
 
 <div class="formulario">
-    <h6> Novo tipo de despesas</h6>
+    <h6>Atualizar o tipo de despesa @Model.Nome</h6>
     <hr />
     <div class="row">
         <div class="col-md-4">
-            <form asp-action="Create" class="form border rounded ">
+            <form asp-action="Edit" class="form border rounded">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="TipoDespesaId" />
                 <div class="form-group">
-                    <label asp-for="Nome" class="col-form-label"></label>
-                    <input asp-for="Nome" class="form-control form-control-sm" />
+                    <label asp-for="Nome" class="control-label"></label>
+                    <input asp-for="Nome" class="form-control" />
                     <span asp-validation-for="Nome" class="text-danger"></span>
                 </div>
                 <hr />
+
                 <div class="form-group">
                     <input type="submit" value="Salvar" class="btn btn-outline-success btn-sm" />
                     <a asp-action="Index" class="btn btn-outline-dark btn-sm">Voltar</a>
@@ -26,8 +28,6 @@
         </div>
     </div>
 </div>
-
-
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
