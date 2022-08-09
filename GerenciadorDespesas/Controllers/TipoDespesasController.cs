@@ -17,9 +17,19 @@ namespace GerenciadorDespesas.Controllers
             _context = context;
         }
 
-
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
+            return View(await _context.TipoDespesas.ToListAsync());
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Index( string txtProcurar)
+        {
+            if (!String.IsNullOrEmpty(txtProcurar))
+                return View(await _context.TipoDespesas.Where(x => x.Nome.ToUpper().Contains(txtProcurar.ToUpper())).ToListAsync());
+
             return View(await _context.TipoDespesas.ToListAsync());
         }
 
@@ -47,7 +57,7 @@ namespace GerenciadorDespesas.Controllers
         {
             if (ModelState.IsValid)
             {
-                TempData["Confirmacao"] = tipoDespesas.Nome + "Foi cadastrado com sucesso.";
+                TempData["Confirmacao"] = tipoDespesas.Nome + " foi cadastrado com sucesso.";
 
 
                 _context.Add(tipoDespesas);
