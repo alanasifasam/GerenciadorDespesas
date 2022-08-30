@@ -12,10 +12,10 @@
             <a asp-action="Create" class="btn btn-outline-primary btn-sm">Nova despesa</a>
         </p>
 
-             @if(TempData["Confirmacao"] != null)
-            {
-                <h6 class="alert alert-success">@TempData["Confirmacao"]</h6>
-            }
+        @if (TempData["Confirmacao"] != null)
+        {
+            <h6 class="alert alert-success">@TempData["Confirmacao"]</h6>
+        }
 
 
         <!--Lista de select-->
@@ -32,8 +32,13 @@
             <div class="col">
                 <partial name="_GastoTotalMes" />
             </div>
-        </div>
 
+
+            <div class="col">
+                <partial name="_GastoMes" />
+            </div>
+
+        </div>
         <div class="tabelaPrincipal">
             <table class="table table-hover">
                 <thead>
@@ -107,9 +112,12 @@
 
 @section Scripts{
 
+    <script src="~/js/MetodosGerais.js"></script>
+    <script src="~/js/GraficoGastoMes.js"></script>
     <script src="~/js/GraficoTotalMes.js"></script>
-    <script>
 
+    <script>
+        CarregarDadosGastosMes();
         CarregarDadosGastosTotaisMes();
 
 
