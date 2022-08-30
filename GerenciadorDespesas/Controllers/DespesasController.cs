@@ -1,4 +1,5 @@
 ﻿using GerenciadorDespesas.Models;
+using GerenciadorDespesas.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -28,6 +29,9 @@ namespace GerenciadorDespesas.Controllers
             const int itensPagina = 10;
             int numeroPagina = (pagina ?? 1);
 
+            ViewData["Meses"] = new SelectList(_context.Meses.Where(x => x.MesId == x.Salarios.MesId), "MesId", "Nome");
+
+
             var contexto = _context.Despesas.Include(x => x.Meses)
                                             .Include(x => x.TipoDespesas)
                                             .OrderBy(x => x.MesId);
@@ -35,7 +39,7 @@ namespace GerenciadorDespesas.Controllers
             return View(await contexto.ToPagedListAsync(numeroPagina, itensPagina));
         }
 
-        
+
 
         // GET: DespesasController/Create
         public IActionResult Create()
@@ -50,7 +54,7 @@ namespace GerenciadorDespesas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("DespesaId,MesId,TipoDespesaId,Valor")] Despesas despesas)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 TempData["Confirmacao"] = "Despesa cadastrada com sucesso.";
                 _context.Add(despesas);
@@ -60,7 +64,7 @@ namespace GerenciadorDespesas.Controllers
             ViewData["MesId"] = new SelectList(_context.Meses, "MesId", "Nome", despesas.MesId);
             ViewData["TipoDespesaId"] = new SelectList(_context.TipoDespesas, "TipoDespesaId", "Nome", despesas.TipoDespesaId);
             return View(despesas);
-            
+
         }
 
         // GET: DespesasController/Edit/5
@@ -71,7 +75,7 @@ namespace GerenciadorDespesas.Controllers
                 return NotFound();
             }
             var despesas = await _context.Despesas.FindAsync(id);
-            if(despesas == null)
+            if (despesas == null)
             {
                 return NotFound();
             }
@@ -85,11 +89,11 @@ namespace GerenciadorDespesas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("DespesaId,MesId,TipoDespesaId,Valor")] Despesas despesas)
         {
-            if(id != despesas.DespesaId)
+            if (id != despesas.DespesaId)
             {
                 return NotFound();
             }
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {
@@ -97,7 +101,7 @@ namespace GerenciadorDespesas.Controllers
                     _context.Update(despesas);
                     await _context.SaveChangesAsync();
                 }
-                catch(DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException)
                 {
                     if (!DespesasExists(despesas.DespesaId))
                     {
@@ -107,7 +111,7 @@ namespace GerenciadorDespesas.Controllers
                     {
                         throw;
                     }
-                    
+
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -125,9 +129,9 @@ namespace GerenciadorDespesas.Controllers
             var despesas = await _context.Despesas.FindAsync(id);
             _context.Despesas.Remove(despesas);
             await _context.SaveChangesAsync();
-             return RedirectToAction(nameof(Index));
-            
-         
+            return RedirectToAction(nameof(Index));
+
+
         }
 
         private bool DespesasExists(int id)
@@ -135,5 +139,22 @@ namespace GerenciadorDespesas.Controllers
             return _context.Despesas.Any(x => x.DespesaId == id);
         }
 
+
+
+
+        public JsonResult GastosTotaisMes(int mesId)
+        {
+            GastosTotaisMesViewModel gastos = new GastosTotaisMesViewModel();
+
+            gastos.ValorTotalGasto = _context.Despesas.Where(d => d.Meses.MesId == mesId).Sum(d => d.Valor);
+            gastos.Salario = _context.Salarios.Where(s => s.Meses.MesId == mesId).Select(s => s.Valor).FirstOrDefault();
+
+            return Json(gastos);    
+        }
+
+
+
+
     }
+
 }
