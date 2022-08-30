@@ -171,6 +171,22 @@ namespace GerenciadorDespesas.Controllers
 
 
 
+
+        public JsonResult GastosTotais()
+        {
+            var query = _context.Despesas
+                                .Include(m => m.Meses).ToList()
+                                .OrderBy(m => m.Meses.MesId)
+                                .GroupBy(m => m.Meses.MesId)
+                                .Select(d => new
+                                {
+                                    NomeMeses = d.Select(x => x.Meses.Nome).Distinct(),
+                                    Valores = d.Sum(x => x.Valor)
+                                });
+            return Json(query);
+        }
+
+
     }
 
 }

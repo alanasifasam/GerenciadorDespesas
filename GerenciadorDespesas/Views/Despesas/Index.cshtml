@@ -33,12 +33,17 @@
                 <partial name="_GastoTotalMes" />
             </div>
 
-
             <div class="col">
                 <partial name="_GastoMes" />
             </div>
 
         </div>
+
+        <div class="row">
+            <partial name="_GastosTotais" />
+        </div>
+
+
         <div class="tabelaPrincipal">
             <table class="table table-hover">
                 <thead>
@@ -115,11 +120,13 @@
     <script src="~/js/MetodosGerais.js"></script>
     <script src="~/js/GraficoGastoMes.js"></script>
     <script src="~/js/GraficoTotalMes.js"></script>
+    <script src="~/js/GraficoGastosTotais.js"></script>
+
 
     <script>
         CarregarDadosGastosMes();
         CarregarDadosGastosTotaisMes();
-
+        CarregarDadosGastosTotais();
 
         function ExibirModal(id) {
 
